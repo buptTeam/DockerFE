@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ContainerList</title>
+	</head>
+	<body>
+		<!--ContainerList -->
+		 <div class='panel'>
+		 	<div class='toolbar'><!--ng-click="newCon()"-->
+		        <a class='btn btn-console'ui-sref='state32' ><i class="fa fa-plus"></i>  New Container</a>
+		      <!--  <a class='btn btn-console poweroff'>I am disabled</a>-->
+		        <input type='text' class='search' placeholder='search' ng-model="searchInput"/>
+		        <a class='btn btn-console' ng-click="searchImg()"><i class="fa fa-search"></i>Go Search</a>
+            </div>
+
+		    <table class='table' style="position:relative;">
+		    	
+		        <thead>
+		            <tr>
+		               <!-- <th>
+		                    <input class='checkbox' type='checkbox' />
+		                </th>-->
+		                <th>
+		                    ID
+		                </th>
+		                <th>
+		                    name
+		                </th>
+		                <th>
+		                    hostName
+		                </th>
+		                <th>
+		                    containerId
+		                </th>
+		                <th>
+		                    ImageName
+		                </th>
+		                <th>
+		                	Enter console
+		                </th>
+		                <th>Log</th>
+		                <th>Power</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr ng-repeat='ct in containers'>
+		                <!--<td>
+		                    <input class='checkbox' type='checkbox' value='ct.id' />
+		                </td>-->
+		                <td>
+		                    {{ct.id}}
+		                </td>
+		                <td>
+		                    <a href='http://baidu.com' ui-sref='state31({id:ct.id})'>{{ct.name}}</a>
+		                </td>
+		                <td>
+		                    {{ct.hostName}}
+		                </td>
+		                <td>
+		                    {{ct.containerId}}
+		                </td>
+		                <td>
+		                    {{ct.imageName}}
+		                </td>
+		                <td>
+		                	<!--<a href="" ui-sref='state33({id:ct.id})'>Enter console</a>-->
+		                	<a href="" ng-click="EnterSole(ct.id)">Enter console</a>
+		                </td>
+		                <td>
+		                	<a href="" ui-sref='state34({id:ct.id})'>LOG</a>
+		                	
+		                </td> 
+		                <td>
+		                	<a href='' ui-sref='state35({id:ct.id})'>Power Info{{ct.id}}</a>
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
+		    <img src="././img/loading.gif" 
+            ng-hide="!layout.loading" width="30" class="loadingImg" />
+		</div>
+		 
+	</body>
+</html>

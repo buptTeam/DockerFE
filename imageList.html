@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div class='panel'>
+			<div class='toolbar'>
+				<a class='btn btn-console' ui-sref='state21'><i class="fa fa-plus"></i>  New image</a>
+				<!--<a class='btn btn-console poweron'>Power On</a>-->
+				<!--<a class='btn btn-console poweroff'>I am disabled</a>-->
+				<input type='text' class='search' placeholder='search' ng-model="searchInput"/>
+				<a class='btn btn-console' ng-click="searchImg()"><i class="fa fa-search"></i>Go Search</a>
+				
+			</div>
+			<table class='table' style="position:relative">
+				<thead>
+					<tr>
+						<!--<th>
+							<input class='checkbox' type='checkbox'/>
+						</th>-->
+						<th>
+							id
+						</th>
+						<th>
+							imageName
+						</th>
+						<th>
+							imageId
+						</th>
+						<th>
+							isPublic
+						</th>
+						<th>
+							Delete
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat='im in images'>
+						<!--<td>
+							<input class='checkbox' type='checkbox' value='im.id'/>
+						</td>-->
+						<td>
+							{{im.id}}
+						</td>
+						<td>
+							{{im.name}}
+						</td>
+						<td>
+							{{im.imageId}}
+						</td>
+						<td>
+							<div ng-if="im.ispublic == '1'">公用</div>
+							<div ng-if="im.ispublic == '0'">私用</div>
+							<!--{{im.ispublic}}-->
+						</td>
+						<td>
+							<a href="" ng-click="deleteImg(im.id)">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+				<img src="././img/loading.gif" 
+            ng-hide="!layout.loading" width="30" class="loadingImg" />
+			</table>
+		</div>  	
+	</body>
+</html>

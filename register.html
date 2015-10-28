@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/login.css" />
+		<script src="js/angular.min.js"></script>
+	</head>
+	<body>
+		<div class="top-bar">
+		    <div class="wrapper">
+		        <div class="logo"><a href="/" target="_blank"><img src="img/logo-docker.png" alt="logo"></a> </div>
+		    </div>
+		</div>
+		<div class="container" ng-app="formApp">
+			<div class="container-left">
+				<img src="img/login-girls.png" alt="">
+			</div>
+			<div class="form-wrapper" ng-controller="RegisterController">
+				<form>
+					<fieldset>
+					<legend>Register</legend>
+					
+					<div class="formItem">
+						<label>Username</label>
+						<input type="text" name="username" placeholder="Enter your username" ng-model="User.name" required />
+					</div>
+					
+					<div class="formItem">
+						<label>Password</label>
+						<input type="password" name="password" placeholder="Enter your password" ng-model="User.password" required />
+					</div>
+					
+					<div class="formItem">
+						<label>Password Confirm</label>
+						<input type="password" name="password2" placeholder="Enter your password" ng-model="password2" required />
+					</div>
+					
+					<div class="formItem">
+						<label>Email</label>
+						<input type="email" name="mail" placeholder="Enter your email" ng-model="User.mail" required />
+					</div>
+					
+					<div class="formItem">
+						<div class=contrlLeft>
+						<input type="button" value="Register" class="btn btn-login" ng-click="RegisterForm()"/>
+						</div>
+					</div>
+					
+					<div class="formItem">
+						<div class="contrlLeft">
+							<a href="login.html">Have account,Go Login!</a>
+						</div>
+					</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<script>
+			var app = angular.module('formApp',[],function($httpProvider){
+			  // Use x-www-form-urlencoded Content-Type
+			  $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+			 
+			  /**
+			   * The workhorse; converts an object to x-www-form-urlencoded serialization.
+			   * @param {Object} obj
+			   * @return {String}
+			   */ 
+			  var param = function(obj) {
+			    var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+			      
+			    for(name in obj) {
+			      value = obj[name];
+			        
+			      if(value instanceof Array) {
+			        for(i=0; i<value.length; ++i) {
+			          subValue = value[i];
+			          fullSubName = name + '[' + i + ']';
+			          innerObj = {};
+			          innerObj[fullSubName] = subValue;
+			          query += param(innerObj) + '&';
+			        }
+			      }
+			      else if(value instanceof Object) {
+			        for(subName in value) {
+			          subValue = value[subName];
+			          fullSubName = name + '[' + subName + ']';
+			          innerObj = {};
+			          innerObj[fullSubName] = subValue;
+			          query += param(innerObj) + '&';
+			        }
+			      }
+			      else if(value !== undefined && value !== null)
+			        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+			    }
+			      
+			    return query.length ? query.substr(0, query.length - 1) : query;
+			  };
+			 
+			  // Override $http service's default transformRequest
+			  $httpProvider.defaults.transformRequest = [function(data) {
+			    return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+			  }];
+			});
+			
+			//controller
+			app.controller('RegisterController',function($scope,$http){
+				$scope.User = {};
+				var User = $scope.User;
+				var password2 = $scope.password2;
+				$scope.RegisterForm = function(){
+					console.log(User.password);
+					console.log($scope.password2);
+				
+					//检查用户密码是否一致
+					if(User.password != $scope.password2 ){alert("两次输入密码不一致");return false;}
+					
+					//检查用户名是否存在
+					$http.get("http://166.111.143.224:8080/docker_new/api/user/name/"+User.name)
+					.success(function(response){
+						//检查用户名是否存在且唯一
+						if(response.length != "0" ){
+						 alert("该用户名已经存在!");return false;
+						}else{
+							//提交用户注册表单
+							$http({
+								method:'POST',
+								url:'http://166.111.143.224:8080/docker_new/api/user/',
+								data:User,
+								headers:{'Content-Type': 'application/x-www-form-urlencoded' }
+							})
+							.success(function(data){
+								alert(data.mes);
+								console.dir(data.mes);
+								location.href = "login.html";
+							})
+							.error(function(data){
+								alert(data.mes);
+								console.dir(data);
+							});
+						}
+					});
+				};
+			})
+		</script>
+	</body>
+</html>

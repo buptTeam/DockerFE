@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div class='panel'>
+		    <form class='form-wrapper' ng-hide='visible'>
+		        <fieldset>
+		            <legend>
+		                The first step:
+		            </legend>
+		            <div class='formItem'>
+		                <label class='label'>
+		                    dockerfile
+		                </label>
+		                <input name='file' type='file' file-model='myFile' size='7' ng-model='newimage'
+		                />
+		            </div>
+		            <div class='formItem'>
+		                <div class=contrlLeft>
+		                    <input type='button' value='Upload' class='btn btn-login' ng-click='UploadFile()'
+		                    />
+		                </div>
+		            </div>
+		        </fieldset>
+		    </form>
+		    <form class='form-wrapper' ng-show='visible'>
+		        <div class='formItem'>
+		            <label class='label'>
+		                dockerfilePath:
+		            </label>
+		            <input type='text' ng-model='imageForm.dockerFilePath' value='{{location}}'
+		            readonly/>
+		        </div>
+		        <div class='formItem'>
+		            <label class='label'>
+		                repertory:
+		            </label>
+		            <input type='text' ng-model='imageForm.repertory' readonly/>
+		            <span class="warnWord">(*length>4 And length<20)</span>
+		        </div>
+		        <div class='formItem'>
+		            <label class='label'>
+		                userId:
+		            </label>
+		            <input type='text' ng-model='imageForm.userId' readonly/>
+		        </div>
+		        <div class='formItem'>
+		            <label class='label'>
+		                imageName:
+		            </label>
+		            <input type='text' ng-model='imageForm.imageName' required/>
+		            <span class="warnWord">(*length>4 And use[a-z,0-9])</span>
+		        </div>
+		        <div class='formItem'>
+		            <label class='label'>
+		                imageTag:
+		            </label>
+		            <input type='text' ng-model='imageForm.imageTag' required/>
+		        </div>
+		        <div class='formItem'>
+		            <label class='label'>
+		                isPublic:
+		            </label>
+		            <input type='radio' ng-model='imageForm.isPublic' value='1' class='radio'
+		            />
+		            Yes
+		            <input type='radio' ng-model='imageForm.isPublic' value='0' class='radio'
+		            />
+		            No
+		        </div>
+		        <div class='formItem'>
+		            <div class=contrlLeft>
+		                <input type='button' value='Submit-Image' class='btn btn-login' ng-click='SubForm()'
+		                />
+		            </div>
+		        </div>
+		    </form>
+		</div>
+
+	</body>
+</html>

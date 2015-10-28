@@ -1,0 +1,343 @@
+*{margin: 0;padding: 0;}
+body {
+    font-family: Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    color: #3b3b3b;
+    background: #f1f4f6;
+}
+label{
+	text-align: right;
+    float: left;
+    width: 130px;
+    font-size: 14px;
+    line-height: 43px;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+input,textarea,select{
+	line-height: 16px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	width: 168px;
+}
+select{
+	width: 200px;
+}
+input:read-only{
+	border:none ;
+	background: #eee;
+}
+input:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: thin dotted \9;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  /*border-color: #57b382;*/
+  outline:0;
+ /* outline: none;*/
+}
+
+.checkbox{
+	width: 20px;
+}
+.formItem{
+	margin: 12px 0;
+}
+/**top-bar**/
+.top-bar{
+	background-color: #fdfdfd;
+    height: 70px;
+    line-height: 70px;
+    border-bottom: 1px solid #dadada;
+}
+.wrapper{
+	width: 1100px;
+    margin: 0 auto;
+    background-color: #fdfdfd;
+    overflow: hidden;
+}
+img{
+	vertical-align: middle;
+}
+/**/
+legend{
+	font-size: 28px;
+	line-height: 32px;
+	margin: 10px 0;
+}
+.container{
+	width: 1100px;
+	margin: 0 auto;
+}
+.container-left{
+	float: left;
+	width: 600px;
+	margin-right: 20px;
+}
+.form-wrapper {
+	margin-top: 80px;
+	margin-left: 10px;
+    padding: 30px;
+    background: #fff;
+    /*height: 340px;*/
+}
+.btn{
+	padding: 10px 20px;
+	margin: 0 3px 0  0;
+	background: #57b382;
+	color: #fff;
+	cursor: pointer;
+	border: none;
+	border-radius: 3px;
+}
+.btn-login{
+	width: 190px;
+	font-size: 18px;
+}
+.btn-login:hover{
+	background: #57B382;
+	color: #BBBBBB;
+}
+.btn-console{
+		font-size: 12px;
+		border-radius: 3px;
+		background: #3b3f4e;
+		border-bottom: 2px solid #353946;
+		padding: 10px 15px;
+}
+.btn i{
+	margin: auto 10px auto auto;
+}
+a{
+	text-decoration: none;
+	color: #57B382;
+}
+.contrlLeft{
+	margin-left:150px;
+}
+fieldset {
+    border: none;
+}
+/*input.ng-valid {
+  border:1px solid green;
+}*/
+//main
+html,body{height: 100%;width: 100%;}
+.top{
+	width: 100%;
+	height:48px;
+	background: #FFFFFF;
+	position: fixed;
+	z-index: 99;
+}
+.left{
+	width: 200px;
+	height: 100%;
+    padding-top: 48px;
+	background: #22222c;
+	color: #FFFFFF;
+	float: left;
+	position: fixed;
+	overflow-y: hidden;
+	z-index: 90;
+}
+.right{
+	border-top: 1px solid #dddddd;
+	margin-left: 200px;
+	padding-top: 48px;
+	color: #2a2d2e;
+	background: #f1f4f6;
+	height:100%;
+}
+.toplogo{
+	width: 200px;
+	height: 48px;
+	background: #353644;
+	float: left;
+}
+.toplogo img{
+	margin: 10px 10px 10px 10px;
+}
+.topUser{
+	height: 48px;
+	vertical-align: middle;
+	margin-left: 200px;
+	box-shadow: 0 -1px 8px 1px #bbb;
+}
+.topLi{
+	float: right;
+	margin-right: 100px;	
+}
+.itemLi{
+	border-left: 1px solid #eee;
+	list-style: none;
+	display: inline-block;
+	line-height: 48px;
+	padding: 0 10px;
+	cursor: pointer;
+}
+.itemLi:hover{
+	background-color:#57B382 ;
+	color: #fff;
+	}
+.leftLi{
+	margin-top: 0px;
+}
+.itemsLi{
+	border-bottom: 1px solid #c0c1c4;
+	list-style: none;
+	line-height: 48px;
+	padding: 6px 20px;
+	cursor: pointer;
+	color: #c0c1c4;
+}
+.itemsLi:hover{
+	color: #fff;
+	background: #353644;
+}
+.toolbar{
+    position: relative;
+    z-index: 4;
+    margin: 20px 0 30px 0;
+
+}
+.Public{
+	text-align: center;
+}
+.panel{
+    padding: 10px 20px;
+    background: #fff;
+    margin: 20px 20px 20px 10px;
+}
+.search{
+	border-radius: 15px;
+}
+.serPubic{
+	width: 300px;
+}
+.poweron{
+	background-color: #57B382;
+}
+.poweroff{
+	background-color: brown;
+}
+.radio{
+	width: 50px;
+    margin-top: 15px;
+}
+.loadingImg{
+	position:absolute;
+	left:50%;
+	top:30%;
+}
+.log{
+	width: 80%;
+    border-radius: 10px;
+    background-color: #22222C;
+    color: #fff;
+    /*padding: 20px;*/
+    }
+.warnWord{
+	color: red;
+	font-size: smaller;
+}
+a.btndisable {
+    background-color: #A9A5A5;
+}
+.powerstatus{
+	margin: 30px auto auto 50px;
+}
+.login-wrapper{
+	height: 340px;
+}
+/*table{
+	max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 15px 0;
+    background: #fff;
+    font-size: x-small;
+}*/
+/*
+	Pretty Table Styling
+	CSS Tricks also has a nice writeup: http://css-tricks.com/feature-table-design/
+	*/
+	
+	table.table{
+		overflow:hidden;
+		border:1px solid #d3d3d3;
+		background:#fefefe;
+		width:100%;
+		max-width:100%;
+		margin:10px auto 0;
+		-moz-border-radius:2px; /* FF1+ */
+		-webkit-border-radius:2px; /* Saf3-4 */
+		border-radius:2px;
+		-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+		font-size: 12px;
+		border-spacing: 0;
+		table-layout:fixed;/*fixed the table not overflow*/
+	}
+	
+	th, td {padding:12px 10px 12px; text-align:center; max-width: 100px;
+    overflow: hidden;
+    /* overflow-wrap: initial; */
+    text-overflow: ellipsis; }
+	
+	th {padding-top:15px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;}
+	
+	td {border-top:1px solid #e0e0e0; border-right:1px solid #e0e0e0;}
+	
+	tr.odd-row td {background:#f6f6f6;}
+	
+	td.first, th.first {text-align:left}
+	
+	td.last {border-right:none;}
+	
+	/*
+	Background gradients are completely unnecessary but a neat effect.
+	*/
+	
+	td {
+		background: -moz-linear-gradient(100% 25% 90deg, #fefefe, #f9f9f9);
+		background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f9f9f9), to(#fefefe));
+	}
+	
+	tr.odd-row td {
+		background: -moz-linear-gradient(100% 25% 90deg, #f6f6f6, #f1f1f1);
+		background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f1f1f1), to(#f6f6f6));
+	}
+	
+	th {
+		background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed);
+		background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#ededed), to(#e8eaeb));
+	}
+	
+	/*
+	I know this is annoying, but we need additional styling so webkit will recognize rounded corners on background elements.
+	Nice write up of this issue: http://www.onenaught.com/posts/266/css-inner-elements-breaking-border-radius
+	
+	And, since we've applied the background colors to td/th element because of IE, Gecko browsers also need it.
+	*/
+	
+	tr:first-child th.first {
+		-moz-border-radius-topleft:5px;
+		-webkit-border-top-left-radius:5px; /* Saf3-4 */
+	}
+	
+	tr:first-child th.last {
+		-moz-border-radius-topright:5px;
+		-webkit-border-top-right-radius:5px; /* Saf3-4 */
+	}
+	
+	tr:last-child td.first {
+		-moz-border-radius-bottomleft:5px;
+		-webkit-border-bottom-left-radius:5px; /* Saf3-4 */
+	}
+	
+	tr:last-child td.last {
+		-moz-border-radius-bottomright:5px;
+		-webkit-border-bottom-right-radius:5px; /* Saf3-4 */
+	}

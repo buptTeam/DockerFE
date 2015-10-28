@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="utf-8" />
+		<title>docker-main</title>
+		<link rel="stylesheet" href="css/login.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<script src="js/angular.min.js"></script>
+		<script src="js/angular-ui-router.js"></script>
+		<script src="//cdn.bootcss.com/angular-loading-bar/0.8.0/loading-bar.min.js"></script>
+  		<link href="//cdn.bootcss.com/angular-loading-bar/0.8.0/loading-bar.min.css" rel="stylesheet">
+		<!--<script src="//cdn.bootcss.com/angular-file-upload/1.1.6/angular-file-upload.js"></script>-->
+	</head>
+	<body>
+		<div class="top">
+			<div class="toplogo"><a href="/" target="_blank"><img src="img/logo-docker.png" alt="logo"></a></div>
+			<div class="topUser">
+				<div ng-controller="UserController">
+					<ul class="topLi">
+						<li class="itemLi"><i class="fa fa-user fa-fw"></i> Hello,{{userName2}}!</li>
+						<li class="itemLi" ng-click="logout()"><i class="fa fa-sign-out"></i> Log Out</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="left">
+			<div>
+				<ul class="leftLi">
+					<li class="itemsLi" ui-sref="state1"><i class="fa fa-share-alt"></i>  Public Image</li>
+					<li class="itemsLi" ui-sref="state2"><i class="fa fa-cubes"></i>  Image Manage</li>
+					<li class="itemsLi" ui-sref="state3"><i class="fa fa-database"></i>  Container Manage</li>
+				</ul>
+			</div>
+		</div>
+		<div class="right">
+			<!--<iframe name="main" frameborder="0" src="login.html" width="100%" ng-model="iframe"></iframe>-->
+			<div class="main">				
+				<!--<div class="panel">
+					
+				</div>-->
+				
+		  
+				<div ui-view></div>
+			</div>
+		</div>
+		<script>
+		  /*locationProvider.html5Mode(true).hashPrefix('!');*/
+		</script>
+		<script>
+
+		var app = angular.module('myApp',['ui.router','angular-loading-bar'],function($httpProvider){
+
+
+			  // Use x-www-form-urlencoded Content-Type
+			  $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+			 
+			  /**
+			   * The workhorse; converts an object to x-www-form-urlencoded serialization.
+			   * @param {Object} obj
+			   * @return {String}
+			   */ 
+			  var param = function(obj) {
+			    var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+			      
+			    for(name in obj) {
+			      value = obj[name];
+			        
+			      if(value instanceof Array) {
+			        for(i=0; i<value.length; ++i) {
+			          subValue = value[i];
+			          fullSubName = name + '[' + i + ']';
+			          innerObj = {};
+			          innerObj[fullSubName] = subValue;
+			          query += param(innerObj) + '&';
+			        }
+			      }
+			      else if(value instanceof Object) {
+			        for(subName in value) {
+			          subValue = value[subName];
+			          fullSubName = name + '[' + subName + ']';
+			          innerObj = {};
+			          innerObj[fullSubName] = subValue;
+			          query += param(innerObj) + '&';
+			        }
+			      }
+			      else if(value !== undefined && value !== null)
+			        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+			    }
+			      
+			    return query.length ? query.substr(0, query.length - 1) : query;
+			  };
+			 
+			  // Override $http service's default transformRequest
+			  $httpProvider.defaults.transformRequest = [function(data) {
+			    return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+			  }];
+			});
+
+		app.run(function($rootScope, $location) {
+			$rootScope.layout = {};
+		    $rootScope.layout.loading = false;
+		})
+
+		app.controller('UserController',function($scope){
+		 var userName = document.cookie.split(";")[0].split("=")[1];
+		 var userId = document.cookie.split(";")[1].split("=")[1];
+		 if(userId == "" ||userId == null){
+		 	alert("Please Login before Entering the Platform!")
+		 	location.href="login.html";
+		 }
+		 $scope.userName2 = userName;
+		 $scope.logout = function(){
+		 	document.cookie = 'userName=';
+			document.cookie = 'userid=';
+		 	location.href="login.html";
+		 }
+		})
+		
+		
+		app.directive('fileModel', ['$parse', function ($parse) {
+		    return {
+		        restrict: 'A',
+		        link: function(scope, element, attrs) {
+		            var model = $parse(attrs.fileModel);
+		            var modelSetter = model.assign;
+		            
+		            element.bind('change', function(){
+		                scope.$apply(function(){
+		                    modelSetter(scope, element[0].files[0]);
+		                });
+		            });
+		        }
+		    };
+		}]);
+		
+		
+		app.service('fileUpload', ['$http', function ($http) {
+				    this.uploadFileToUrl = function(file, uploadUrl){
+				        var fd = new FormData();
+				        fd.append('file', file);
+				        $http.post(uploadUrl, fd, {
+				            transformRequest: angular.identity,
+				            headers: {'Content-Type': undefined}
+				        })
+				        .success(function(data){
+				        	console.log(data.entity);
+				        	return data.entity;
+				        })
+				        .error(function(response){return response;
+				        });
+				    }
+				}]);
+				
+				
+		app.config(function($stateProvider, $urlRouterProvider) {
+			var userId = document.cookie.split(";")[1].split("=")[1];
+			var userName = document.cookie.split(";")[0].split("=")[1];
+		 //defalut
+		  $urlRouterProvider.otherwise("/publicImage");
+		  //
+		  // Now set up the states
+		  $stateProvider
+		    .state('state1', {
+		    	url: "/publicImage",
+		      	templateUrl:"page/public/publicImageList.html",
+		    	controller:function($scope,$http){
+		    		$scope.searchImg = function(){
+		    			$scope.layout.loading = true;
+		    			if($scope.searchInput || $scope.searchInput == ""){
+		    				$http.get("http://166.111.143.224:8080/docker_new/api/image/search?imageName=" + $scope.searchInput)
+			   				.success(function(response) {
+			   				 	$scope.responseData = response.entity;
+			   				 	$scope.images = response.entity;
+			   				 	var isOfficial = $scope.images.is_official;
+			   				 	for(var i = 0,len = $scope.images.length;i < len; i++){
+			   				 		$scope.images[i].index = i+1;
+			   				 	}
+			   				 	$scope.layout.loading = false;
+			   				 });
+		    			}else{
+		    				$scope.images = [];
+		    				$scope.layout.loading = false;
+		    			}
+		    		}
+		      	}
+		    })   
+		    .state('state2', {
+		      url: "/image",
+		      templateUrl:"page/image/imageList.html",
+		    	controller:function($scope,$http){
+		    		$scope.searchImg = function(){
+		    			if($scope.searchInput || $scope.searchInput == ""){
+		    				var imgData = $scope.responseData;
+			    			$scope.images = [];
+			    			for(var i = 0,len = imgData.length; i < len; i++){
+			    				var dataJson = JSON.stringify(imgData[i]);
+			    				if(dataJson.indexOf($scope.searchInput) != -1){
+			    					$scope.images.push(imgData[i]);
+			    				}
+			    			}
+		    			}else{
+		    				$scope.images = $scope.responseData;
+		    			}
+		    		}
+
+		    		$scope.layout.loading = true;
+		    		$http.get("http://166.111.143.224:8080/docker_new/api/image/userId/"+userId)
+	   				 .success(function(response) {
+	   				 	$scope.responseData = response.entity;
+	   				 	$scope.images = response.entity;
+	   				 	var ispublic = $scope.images.ispublic;
+	   				
+	   				 	$scope.layout.loading = false;
+	   				 });
+	   				 
+	   				 $scope.deleteImg = function(id){
+	   				 	alert("Confirm delete image that id is"+id+"?");
+	   				 	$http.get("http://166.111.143.224:8080/docker_new/api/image/delete?id="+id)
+	   				 	.success(function(data){
+	   				 		alert(data.mes);
+	   				 		history.go(0);
+	   				 	})
+	   				 	.error(function(data){
+	   				 		alert(data.mes);
+	   				 		history.go(0);
+	   				 	})
+	   				 }
+	   				 
+		    	}
+		    })
+		    
+		    .state('state21', {
+		      url: "/newimage",
+		      templateUrl:"page/image/imageNew.html",
+		      controller:function($scope,$http,fileUpload){
+				
+				/*Upload-DockerFile*/	
+				$scope.UploadFile = function(){
+					var file = $scope.myFile;
+					console.log('file is');
+					console.dir(file);
+					var uploadUrl = 'http://166.111.143.224:8080/docker_new/api/image/uploadDockerfile';
+					/*alert(fileUpload.uploadFileToUrl(file, uploadUrl));*/
+				        var fd = new FormData();
+				        fd.append('file', file);
+				        $http.post(uploadUrl, fd, {
+				            transformRequest: angular.identity,
+				            headers: {'Content-Type': undefined}
+				        })
+				        .success(function(data){
+				        	console.log(data);
+				        	/*$scope.location = data.entity;*/
+				        	$scope.imageForm.dockerFilePath = data.entity ;
+				        	$scope.visible = true;
+				        })
+				        .error(function(data){
+				        	console.log(data);
+				        });
+
+				}
+				/*create-image*/
+				$scope.imageForm = {};
+		      	var form = $scope.imageForm;
+		      	form.userId = userId;
+		      	form.repertory = userName;
+				$scope.SubForm = function(){
+					$http({
+						method:'POST',
+						url:'http://166.111.143.224:8080/docker_new/api/image',
+						data:$scope.imageForm,
+						headers:{'Content-Type': 'application/x-www-form-urlencoded' }
+					})
+					.success(function(data){
+						alert(data.mes);
+						/*alert("Upload image successfully!");*/
+						window.location.href="./index.html#/image"; 
+						console.dir(data);
+					})
+					.error(function(data){
+						alert("error"+data)
+					});
+				};
+		      }
+		    })
+		    //容器列表
+		    .state('state3',{
+		    	url:"/container",
+		    	templateUrl:"page/container/ContainerList.html",
+		    	controller:function($scope,$http){
+		    		
+		    		$scope.layout.loading = true;
+		    		$http.get("http://166.111.143.224:8080/docker_new/api/container/userId/"+userId)
+	   				 .success(function(response) {
+	   				 	$scope.layout.loading = false;
+	   				 	$scope.responseData = response.entity;
+	   				 	$scope.containers = response.entity;
+	   				 	$scope.EnterSole = function(id){
+	   				 		window.open("//166.111.143.224:8080/docker_new/api/container/attach/id/"+ id,"newwindow");
+	   				 	}
+	   				 });
+	   				 $scope.searchImg = function(){
+		    			if($scope.searchInput || $scope.searchInput==""){
+		    				var imgData = $scope.responseData;
+			    			$scope.containers = [];
+			    			for(var i = 0,len = imgData.length; i < len; i++){
+			    				var dataJson = JSON.stringify(imgData[i]);
+			    				if(dataJson.indexOf($scope.searchInput) != -1){
+			    					$scope.containers.push(imgData[i]);
+			    				}
+			    			}
+		    			}else{
+		    				$scope.containers = $scope.responseData;
+		    			}
+		    		}
+	   				 /*弹出新窗口
+	   				  * $scope.newCon = function(){
+	   				 	window.open("page/container/ContainerNew.html","null","height=300, width=300, top=300px, left=300px,toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+	   				 }*/
+		    	}
+		    })
+		    
+		    //list
+		    .state('state31', {
+		      url: "/container:id",
+		      template: "<div>containerID is ： {{id}}</div>being developed!",
+		      controller:function($scope,$http,$stateParams){
+		       $scope.id = $stateParams.id;
+		      }
+		    })
+		    
+		    //创建容器
+		    .state('state32',{
+		    	url:"/newcontainer",
+		    	templateUrl:"page/container/ContainerNew.html",
+		    	controller:function($scope,$http){
+		    		$scope.CNForm={};
+		    		 var CN = $scope.CNForm;
+		    		 CN.userId = userId;
+		    		 
+		    		 //find - image
+		    		 $http.get("http://166.111.143.224:8080/docker_new/api/image/userId/"+userId)
+	   				 .success(function(response) {
+	   				 	var images = response.entity;
+	   				 	$scope.images = images;
+	   				 	console.dir(images);
+	   				 });
+	   				
+	   				//Submit new container
+	   				console.log("CNForm is");
+	   				console.dir(CN);
+	   				
+	   				$scope.SubCNForm = function(){
+	   					 console.log($scope.imageName2);
+	   					if($scope.imageName2 != '0'){
+	   						CN.imageName = $scope.imageName2;
+	   					}
+					$http({
+						method:'POST',
+						url:'http://166.111.143.224:8080/docker_new/api/container',
+						data:CN,
+						headers:{'Content-Type': 'application/x-www-form-urlencoded' }
+					})
+					.success(function(data){
+						console.dir(data);
+						alert(data.mes);
+					//	alert("Create Container successfully!");
+						window.location.href = "./index.html#/container"
+						/*$location.path('./index.html#/image');*/
+					})
+					.error(function(data){
+						alert("error"+data)
+					});
+				};
+		    	}
+		    })
+		    //查询Log信息
+		    .state('state34',{
+		    	url:"/ContainerLog:id",
+		    	templateUrl:"page/container/ContainerLog.html",
+		    	controller:function($scope,$http,$stateParams){
+		  			//get containerID
+		  			$scope.id = $stateParams.id;
+		  			var id = $stateParams.id;
+		  			console.log(id);
+		  			$http.get("http://166.111.143.224:8080/docker_new/api/container/log/id/"+id)
+	   				 .success(function(response) {
+	   				 	console.log("successfully!And data is");
+	   				 	console.dir(response);
+	   				 	$scope.mes = response.mes;
+	   				 	$scope.log = response.entity;
+	   				 });
+		    	}
+		    })
+		     //查看容器Power状态
+		    .state('state35', {
+		      url: "/container/Power:id",
+		      templateUrl: "page/container/Container_power.html",
+		      controller:function($scope,$http,$stateParams){
+		      		$scope.id = $stateParams.id;
+		  			var id = $stateParams.id;
+		  			console.log(id);
+		  			$http.get("http://166.111.143.224:8080/docker_new/api/container/info/id/"+id)
+	   				 .success(function(response,data) {
+	   				 	console.log("successfully!And data is");
+	   				 	console.dir(response);console.dir(data);
+	   				 	$scope.mes = response.mes;
+	   				 	$scope.status = response.entity;	
+	   				 });
+	   				 
+	   				 //启动容器
+	   				$scope.poweron = function(){
+	   				 	
+	   				 	$http({
+						method:'POST',
+						url:'http://166.111.143.224:8080/docker_new/api/container/start/id/'+id,
+						headers:{'Content-Type': 'application/x-www-form-urlencoded' }
+					})
+					.success(function(data){
+						alert(data.mes);	
+						//refreash page
+						history.go(0) ;
+						console.dir(data);
+						
+					})
+					.error(function(data){
+						alert("error"+data.mes)
+					});	   				 	
+	   				};
+	   				//关闭容器
+	   				$scope.poweroff = function(){
+
+	   				 	$http({
+						method:'POST',
+						url:'http://166.111.143.224:8080/docker_new/api/container/stop/id/'+id,
+						headers:{'Content-Type': 'application/x-www-form-urlencoded' }
+					})
+					.success(function(data){
+						console.dir(data);
+						alert(data.mes);	
+						history.go(0) ;
+						
+					})
+					.error(function(data){
+						alert("error"+data.mes)
+					});	   				 	
+	   				 }
+		      }
+		    })
+		    
+		    ;
+		});
+		</script>
+	</body>
+</html>

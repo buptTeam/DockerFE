@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div class='panel'>
+			<div class='toolbar Public'>
+				
+				<!--<a class='btn btn-console poweron'>Power On</a>-->
+				
+				<input type='text' class='search serPubic' placeholder='Enter the Image Name ' ng-model="searchInput"/>
+				<a class='btn btn-console' ng-click="searchImg()"><i class="fa fa-search"></i>Go Search</a>
+				
+			</div>
+			<table class='table' style="position:relative">
+				<thead>
+					<tr>
+						<!--<th>
+							<input class='checkbox' type='checkbox'/>
+						</th>-->
+						<th>
+							index
+						</th>
+						<th>
+							name
+						</th>
+						<th>
+							is_trusted
+						</th>
+						<th>
+							is_official
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat='im in images'>
+						<!--<td>
+							<input class='checkbox' type='checkbox' value='im.id'/>
+						</td>-->
+						<td>
+							{{im.index}}
+						</td>
+						<td>
+							{{im.name}}
+						</td>
+						<td>
+							{{im.is_trusted}}
+						</td>
+						<td>
+							{{im.is_official}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+				<img src="././img/loading.gif" ng-hide="!layout.loading" width="30" class="loadingImg" />
+		</div>  	
+	</body>
+</html>
