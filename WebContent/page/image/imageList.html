@@ -26,8 +26,11 @@
 						<th>
 							imageName
 						</th>
-						<th>
+						<!--<th>
 							imageId
+						</th>-->
+						<th>
+							ownerId
 						</th>
 						<th>
 							isPublic
@@ -48,8 +51,11 @@
 						<td>
 							{{im.name}}
 						</td>
-						<td>
+						<!--<td>
 							{{im.imageId}}
+						</td>-->
+						<td>
+							{{im.ownerId}}
 						</td>
 						<td>
 							<div ng-if="im.ispublic == '1'">公用</div>
@@ -58,6 +64,29 @@
 						</td>
 						<td>
 							<a href="" ng-click="deleteImg(im.id)">Delete</a>
+						</td>
+					</tr>
+					<tr ng-repeat='im in images2 | filter:isOwner' ng-if="im.ispublic == '1'">
+						<!--<td>
+							<input class='checkbox' type='checkbox' value='im.id'/>
+						</td>-->
+						<td>
+							{{im.id}}
+						</td>
+						<td>
+							{{im.name}}
+						</td>
+						<!--<td>
+							{{im.imageId}}
+						</td>-->
+						<td>
+							{{im.ownerId}}
+						</td>
+						<td>
+							<div ng-if="im.ispublic == '1'">公用</div>
+						</td>
+						<td>
+							<div class="noable">Delete</div>
 						</td>
 					</tr>
 				</tbody>

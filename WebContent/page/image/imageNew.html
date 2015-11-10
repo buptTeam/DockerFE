@@ -9,10 +9,10 @@
 		    <form class='form-wrapper' ng-hide='visible'>
 		        <fieldset>
 		            <legend>
-		                The first step:
+		                
 		            </legend>
 		            <div class='formItem'>
-		                <label class='label'>
+		                <label class='label label2'>
 		                    dockerfile
 		                </label>
 		                <input name='file' type='file' file-model='myFile' size='7' ng-model='newimage'
@@ -28,40 +28,40 @@
 		    </form>
 		    <form class='form-wrapper' ng-show='visible'>
 		        <div class='formItem'>
-		            <label class='label'>
+		            <label class='label label2'>
 		                dockerfilePath:
 		            </label>
 		            <input type='text' ng-model='imageForm.dockerFilePath' value='{{location}}'
 		            readonly/>
 		        </div>
 		        <div class='formItem'>
-		            <label class='label'>
+		            <label class='label label2'>
 		                repertory:
 		            </label>
 		            <input type='text' ng-model='imageForm.repertory' readonly/>
 		            <span class="warnWord">(*length>4 And length<20)</span>
 		        </div>
 		        <div class='formItem'>
-		            <label class='label'>
+		            <label class='label label2'>
 		                userId:
 		            </label>
 		            <input type='text' ng-model='imageForm.userId' readonly/>
 		        </div>
 		        <div class='formItem'>
-		            <label class='label'>
+		            <label class='label label2'>
 		                imageName:
 		            </label>
 		            <input type='text' ng-model='imageForm.imageName' required/>
 		            <span class="warnWord">(*length>4 And use[a-z,0-9])</span>
 		        </div>
 		        <div class='formItem'>
-		            <label class='label'>
+		            <label class='label label2'>
 		                imageTag:
 		            </label>
 		            <input type='text' ng-model='imageForm.imageTag' required/>
 		        </div>
 		        <div class='formItem'>
-		            <label class='label'>
+		            <label class='label label2'>
 		                isPublic:
 		            </label>
 		            <input type='radio' ng-model='imageForm.isPublic' value='1' class='radio'

@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div class="top">
-			<div class="toplogo"><a href="/" target="_blank"><img src="img/logo-docker.png" alt="logo"></a></div>
+			<div class="toplogo"><a href="/" target="_blank"></a></div>
 			<div class="topUser">
 				<div ng-controller="UserController">
 					<ul class="topLi">
@@ -188,9 +188,10 @@
 		      url: "/image",
 		      templateUrl:"page/image/imageList.html",
 		    	controller:function($scope,$http){
+		    		
 		    		$scope.searchImg = function(){
 		    			if($scope.searchInput || $scope.searchInput == ""){
-		    				var imgData = $scope.responseData;
+		    				var imgData = $scope.responseData; 
 			    			$scope.images = [];
 			    			for(var i = 0,len = imgData.length; i < len; i++){
 			    				var dataJson = JSON.stringify(imgData[i]);
@@ -198,12 +199,24 @@
 			    					$scope.images.push(imgData[i]);
 			    				}
 			    			}
+		    			
+		    			var imgData2 = $scope.responseData2;
+			    			$scope.images2 = [];
+			    			for(var i = 0,len = imgData2.length; i < len; i++){
+			    				var dataJson2 = JSON.stringify(imgData2[i]);
+			    				if(dataJson2.indexOf($scope.searchInput) != -1){
+			    					$scope.images2.push(imgData2[i]);
+			    				}
+			    			}
+			    			
 		    			}else{
 		    				$scope.images = $scope.responseData;
+		    				$scope.images2 = $scope.responseData2;
 		    			}
-		    		}
+		    		};
 
 		    		$scope.layout.loading = true;
+		    		//Get-owner Image
 		    		$http.get("http://166.111.143.224:8080/docker_new/api/image/userId/"+userId)
 	   				 .success(function(response) {
 	   				 	$scope.responseData = response.entity;
@@ -212,6 +225,22 @@
 	   				
 	   				 	$scope.layout.loading = false;
 	   				 });
+	   				 //Get public Image
+	   				$http.get("http://166.111.143.224:8080/docker_new/api/image/")
+		   			.success(function(response) {
+		   						$scope.responseData2 = response.entity;
+		   				 		$scope.images2 = response.entity;
+		   				 		var ispublic = $scope.images2.ispublic;
+	   				 			$scope.layout.loading = false;
+		   			});
+			   		//Public image filter(not owners)
+		   			$scope.isOwner = function(str){
+		   				console.log(str);
+		   				if(str.ownerId != userId){
+			   				return str;
+			   				}
+		   			};
+	   				 
 	   				 
 	   				 $scope.deleteImg = function(id){
 	   				 	alert("Confirm delete image that id is"+id+"?");
@@ -225,6 +254,8 @@
 	   				 		history.go(0);
 	   				 	})
 	   				 }
+	   				 
+	   				 
 	   				 
 		    	}
 		    })
@@ -271,7 +302,7 @@
 						headers:{'Content-Type': 'application/x-www-form-urlencoded' }
 					})
 					.success(function(data){
-						alert(data.mes);
+						alert("Submit image successfully! and "+data.mes);
 						/*alert("Upload image successfully!");*/
 						window.location.href="./index.html#/image"; 
 						console.dir(data);

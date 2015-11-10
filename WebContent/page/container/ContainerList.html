@@ -36,9 +36,9 @@
 		                <th>
 		                    ImageName
 		                </th>
-		                <th>
-		                	Enter console
-		                </th>
+		                <!--<th>
+		                	console
+		                </th>-->
 		                <th>Log</th>
 		                <th>Power</th>
 		            </tr>
@@ -52,7 +52,8 @@
 		                    {{ct.id}}
 		                </td>
 		                <td>
-		                    <a href='http://baidu.com' ui-sref='state31({id:ct.id})'>{{ct.name}}</a>
+		                   <!-- <a href='http://baidu.com' ui-sref='state31({id:ct.id})'>{{ct.name}}</a>-->
+		                    <a href="" ng-click="EnterSole(ct.id)">{{ct.name}}</a>
 		                </td>
 		                <td>
 		                    {{ct.hostName}}
@@ -63,16 +64,16 @@
 		                <td>
 		                    {{ct.imageName}}
 		                </td>
-		                <td>
+		                <!--<td>
 		                	<!--<a href="" ui-sref='state33({id:ct.id})'>Enter console</a>-->
-		                	<a href="" ng-click="EnterSole(ct.id)">Enter console</a>
-		                </td>
+		                	<!--<a href="" ng-click="EnterSole(ct.id)">Enter console</a>
+		                </td>-->
 		                <td>
 		                	<a href="" ui-sref='state34({id:ct.id})'>LOG</a>
 		                	
 		                </td> 
 		                <td>
-		                	<a href='' ui-sref='state35({id:ct.id})'>Power Info{{ct.id}}</a>
+		                	<a href='' ui-sref='state35({id:ct.id})'>Power {{ct.id}}</a>
 		                </td>
 		            </tr>
 		        </tbody>
